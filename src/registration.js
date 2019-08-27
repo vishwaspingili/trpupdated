@@ -184,7 +184,7 @@ class RegisterForm extends React.Component {
     return (
     
     <div className='Signup-form'>
-        <h3 style={{textAlign: 'center'}}>Registration page</h3>
+        <h2 style={{textAlign: 'center'}}>Registration page</h2>
         <form method="post"  name="userRegistrationForm" onSubmit= {this.submituserRegistrationForm} >
         <ul className="nav">
             <li>

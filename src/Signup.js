@@ -127,7 +127,7 @@ logincontent() {
   if (this.state.Password === "") {
     // this.setState({ formIsValid : false, ...state, password: "Please enter your Password"});
     // this.setState({formIsValid : false});
-    errors.password= 'Please enter your Password.';
+    errors.password= "Please enter your Password.";
     // this.setState({errpassword: errors.password})
   }
 
@@ -145,12 +145,12 @@ logincontent() {
         name="UserId"
       />
       <div className="errorMsg">{errors.username}</div>
-      <TextField
+      <TextField  
         id="standard-name"
         label="Enter Password"
         onChange={(e) => this.handleChange(e)}
         margin="normal"
-        name="Password"
+        type="password" name="Password"
       />
       <div className="errorMsg">{errors.password}</div>
         {/* <p>User ID:</p>
@@ -162,8 +162,8 @@ logincontent() {
         <div className="errorMsg">{errors.password}</div> */}
         <br />
         <br />
-        <Button type="password" onClick={(errors) => this.validate(errors)} variant="contained" color="primary">
-          Login
+        <Button onClick={(errors) => this.validate(errors)} variant="contained" color="primary" >
+          Login 
         </Button>
         {/* <input type="submit" value="Login" /> */}
         {/* <div className="registerbtn" onClick={(e) => this.switch(e)}>Register Now</div> */}

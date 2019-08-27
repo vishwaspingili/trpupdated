@@ -4,11 +4,11 @@ import { yellow } from '@material-ui/core/colors';
 function Footer() {
     const footerstyle = {
         position:'absolute',
-        bottom:'0',
+        bottom:'100',
         width:'100%',
-        height:'60px',   /* Height of the footer */
+        height:'auto',   /* Height of the footer */
         textAlign:'center',
-        backgroundColor: '#ccffcc',
+        backgroundColor: '#007914',
         padding: '20px'
     }
     return (
