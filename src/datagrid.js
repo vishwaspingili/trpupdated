@@ -22,32 +22,37 @@ const columns = [
 ]
 
 const details = ['id','Date','Name','phone','Role','visa','status','resume','details']
-
+let filterData = [];
+let count = 0;
+let resume={};
 let today = new Date();
 let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 console.log(today.getFullYear());
-// const rowdata = [{ id: 0, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
-// { id: 1, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
-// { id: 2, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' },
-// { id: 3, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'peter', phone: 443456, Role: 'devops', Visa: 'h4', Status: 'on peoject', resume: '', details: '' },
-// { id: 4, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'kin', phone: 123556, Role: 'db', Visa: 'gc', Status: 'consultancy', resume: '', details: '' },
-// { id: 5, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'tin', phone: 123116, Role: 'hadoop', Visa: 'l1', Status: 'TC consultant', resume: '', details: '' },
-// { id: 6, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'duffy', phone: 125556, Role: 'testing', Visa: 'stem opt', Status: '', resume: '', details: '' },
-// { id: 7, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'sam', phone: 123499, Role: 'angular', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
-// { id: 8, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'ram', phone: 123475, Role: 'react', Visa: 'h1', Status: 'home project', resume: '', details: '' },
-// { id: 9, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'krish', phone: 125556, Role: 'java', Visa: 'gc', Status: 'on bench', resume: '', details: '' }]
-
+// let resume = [{ id: 0, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
+//             { id: 1, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
+//             { id: 2, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' },
+//             { id: 3, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'peter', phone: 443456, Role: 'devops', Visa: 'h4', Status: 'on peoject', resume: '', details: '' },
+//             { id: 4, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'kin', phone: 123556, Role: 'db', Visa: 'gc', Status: 'consultancy', resume: '', details: '' },
+//             { id: 5, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'tin', phone: 123116, Role: 'hadoop', Visa: 'l1', Status: 'TC consultant', resume: '', details: '' },
+//             { id: 6, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'duffy', phone: 125556, Role: 'testing', Visa: 'stem opt', Status: '', resume: '', details: '' },
+//             { id: 7, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'sam', phone: 123499, Role: 'angular', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
+//             { id: 8, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'ram', phone: 123475, Role: 'react', Visa: 'h1', Status: 'home project', resume: '', details: '' },
+//             { id: 9, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'krish', phone: 125556, Role: 'java', Visa: 'gc', Status: 'on bench', resume: '', details: '' }]
 
 class Customgrid extends Component {
     constructor() {
         super()
         this.state = {
             username: "",
-            rows: rowdata,
+            rows: [],
             addprofileclicked: false,
             selectedIndexes:[],
             logout: false,
-            data:{}
+            data:{},
+            newResume: false,
+            oldResume: false,
+            wip: false,
+            showButton: false
         }
     }
 
@@ -59,14 +64,13 @@ class Customgrid extends Component {
             return ((v["Name"] === username) || v.Role === userRole);
         })
 
-
         this.setState({
             rows: result
         })
     }
     clearsearch(e) {
         this.setState({
-            rows: rowdata
+            rows: filterData
         })
     }
     addprofile(e) {
@@ -115,58 +119,116 @@ class Customgrid extends Component {
         
 }    
     onRowsSelected = rows => {
+        count+=1;
+        console.log(rows);
         this.setState({
         selectedIndexes: this.state.selectedIndexes.concat(
         rows.map(r => r.rowIdx)
         )
     });
+    console.log(this.state.selectedIndexes);
+    // if(this.state.selectedIndexes.length === 0) {
+    if(count === 1) {
+        this.setState({showButton: true});
+    } else {
+        this.setState({showButton: false});
+    }
     };
 
     onRowsDeselected = rows => {
+    count-=1;
     let rowIndexes = rows.map(r => r.rowIdx);
+    
     this.setState({
         selectedIndexes: this.state.selectedIndexes.filter(
         i => rowIndexes.indexOf(i) === -1
         )
     });
+    if(count === 1) {
+        this.setState({showButton: true});
+    } else {
+        this.setState({showButton: false});
+    }
+    // this.setState({
+    //     selectedIndexes: this.state.selectedIndexes.splice(this.state.selectedIndexes.indexOf(rowIndexes[0]),1)
+    // });
     };
     newResume() {
-        this.setState({newResume: true})
+        this.setState({newResume: true});
+        resume = this.state.data.newResourceDetailDTO.newResourceDetailList;
+        // const resume = [{ id: 0, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
+        //     { id: 1, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
+        //     { id: 2, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' },
+        //     { id: 3, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'peter', phone: 443456, Role: 'devops', Visa: 'h4', Status: 'on peoject', resume: '', details: '' },
+        //     { id: 4, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'kin', phone: 123556, Role: 'db', Visa: 'gc', Status: 'consultancy', resume: '', details: '' },
+        //     { id: 5, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'tin', phone: 123116, Role: 'hadoop', Visa: 'l1', Status: 'TC consultant', resume: '', details: '' },
+        //     { id: 6, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'duffy', phone: 125556, Role: 'testing', Visa: 'stem opt', Status: '', resume: '', details: '' },
+        //     { id: 7, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'sam', phone: 123499, Role: 'angular', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
+        //     { id: 8, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'ram', phone: 123475, Role: 'react', Visa: 'h1', Status: 'home project', resume: '', details: '' },
+        //     { id: 9, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'krish', phone: 125556, Role: 'java', Visa: 'gc', Status: 'on bench', resume: '', details: '' }]
+
+        this.filteredData(resume);
     }
     wip() {
-
+        this.setState({wip: true});
+         resume = this.state.data.wipResourceDetailDTO.wipResourceDetailList;
+        this.filteredData(resume);
     }
     oldResume(){
-        
+        this.setState({oldResume: true});
+        resume = this.state.data.compResourceDetailDTO.compResourceDetailList;
+        this.filteredData(resume);
+    }
+    uploadResume(index, file) {
+        console.log(index,file);
+        resume.forEach(z=> z.id == index ? (z.resume = file.name, z.details = (Math.floor(file.size/1024))+"Kb") : "")
+        console.log(resume);
+        this.filteredData(resume);
     }
 
-    componentDidMount() {a
+    filteredData(fullData) {
+        filterData = [];
+        fullData.map(row=> {
+            let rows = {}
+            let {firstName, statusDTO, lastModifiedTs, resourceId, primaryPhone, desiredPosition, resume, details} = row
+            rows['Name'] = firstName;
+            rows['Status'] = statusDTO.statusDesc;
+            rows['Date'] = lastModifiedTs;
+            rows['id'] = resourceId;
+            rows['phone'] = primaryPhone;
+            rows['Role'] = desiredPosition;
+            rows['resume'] = resume;
+            rows['details'] = details;
+            filterData.push(rows)
+        });
+        this.setState({rows: filterData})
+    }
+
+    componentDidMount() {
         fetch("http://172.16.75.112:8080/trp/searchResource",{
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'cache-control': 'no-cache',
-            },  body: JSON.stringify({
-
-              }),
-          })
-          .then(res => res.json())
-          .then(
-            (result) => {  
-              console.log(result) 
-              if(result.responseCode.errorCode==="0"){
-                // result.responseCode.errorCode==="0"
-                this.setState({
-                  data: result
-                } )
-              }
-              else{this.setState({
-                errormessage:"Invalid User Id or Password."
-              })}
-            }
-          ).catch(err => {
-            console.log(err)
-          })
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache',
+            },  body: JSON.stringify({}),
+            })
+            .then(res => res.json())
+            .then(result => { 
+                console.log(result) 
+                if(result.responseCode.errorCode==="0"){
+                    this.setState({data: result})
+                    console.log(this.state.data) 
+   
+                }
+                else{
+                    this.setState({errormessage:"Invalid User Id or Password."})
+                }
+                }
+                )
+            .catch(err => {
+                console.log(err)
+                this.setState({errormessage:"Something went wrong"})
+            })
         }
     render() {
         if (this.state.addprofileclicked) {
@@ -181,7 +243,7 @@ class Customgrid extends Component {
         }
         if (this.state.addresumesclicked) {
             return (
-                <Upload handelresume={this.handelresume}/>
+                <Upload indexSelected={this.state.selectedIndexes} uploadResume={(index, file) => this.uploadResume(index, file)} handelresume={this.handelresume}/>
             )
         }
         if(this.state.logout) {
@@ -189,14 +251,21 @@ class Customgrid extends Component {
                 <Signup />
             )
         }
-// const rowdata = [{ id: 0, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
 
-        if(this.state.newResume) {
-            const newResume = this.state.data.newResourceDetailDTO.newResourceDetailList;
-            const rowdata = newResume.map(d => {
-                
-            })
-        }
+        // if(this.state.newResume) {
+        //     const newResume = this.state.data.newResourceDetailDTO.newResourceDetailList;
+            
+        //     this.filteredData(resume);
+        // }
+
+        // if(this.state.oldResume) {
+        //     const oldResume = this.state.data.newResourceDetailDTO.newResourceDetailList;
+        //     filteredData(oldResume);
+        // }
+        // if(this.state.wip) {
+        //     const wip = this.state.data.newResourceDetailDTO.newResourceDetailList;
+        //     filteredData(wip);
+        // }
 
         return (
             <div>
@@ -208,9 +277,9 @@ class Customgrid extends Component {
             color="primary"
             aria-label="full-width contained primary button group"
         >
-            <Button onClick={(e) => this.newResume(e)}>New Resume</Button>
-            <Button onClick={(e) => this.wip(e)}>Work in progress</Button>
-            <Button onClick={(e) => this.oldResume(e)}>Old Resume</Button>
+            <Button onClick={() => this.newResume()}>New Resume</Button>
+            <Button onClick={() => this.wip()}>Work in progress</Button>
+            <Button onClick={() => this.oldResume()}>Old Resume</Button>
         </ButtonGroup>
                 <br/>
                 <TextField
@@ -226,7 +295,6 @@ class Customgrid extends Component {
                     name="User name"
                 />
 
-                
         <Grid item xs={12} md={6}>
         <Grid container spacing={1} direction="column" alignItems="center">
         <Grid item>
@@ -239,7 +307,8 @@ class Customgrid extends Component {
             <Button type="submit" variant="contained" color="primary" onClick={(e) => this.clearsearch(e)}>Clear Search</Button>  
             <Button onClick={(e) => this.addprofile(e)}>Add profile</Button>
             <Button onClick={(e) => this.updateprofile(e)}>Update profile</Button>
-            <Button onClick={(e) => this.addresumes(e)}>Add Resume</Button>
+            
+            <Button disabled={!this.state.showButton} onClick={(e) => this.addresumes(e)}>Add Resume</Button>
             <Button onClick={(e) => this.logout(e)}>Logout</Button>
             </ButtonGroup>
           </Grid>
@@ -265,7 +334,7 @@ class Customgrid extends Component {
                         minWidth={900}
                         rowSelection={{
                             showCheckbox: true,
-                            enableShiftSelect: true,
+                            enableShiftSelect: false,
                             onRowsSelected: this.onRowsSelected,
                             onRowsDeselected: this.onRowsDeselected,
                             selectBy: {

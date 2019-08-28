@@ -2,7 +2,7 @@
 body{
   height: 80%;
   font-family: 'Times New Roman', Times, serif, sans-serif;
-    background-color: rgb(253, 253, 253);
+    background-color: rgb(228, 227, 230);
 
 }
 
@@ -29,27 +29,26 @@ body{
 }
 .Login-form{
   /* background: rgb(184, 187, 187); */
-  background: #cfcbff;
+  background: #8080c5;
   padding: 40px;
   clear: both;
   box-sizing: border-box;
   height: auto;
   border-radius: 10px;
-  box-shadow: 5px 5px 5px rgb(110, 110, 110);
+  box-shadow: 5px 5px 5px  rgb(0, 0, 0);
   align-items: center;
   justify-content: center;
   
 }
 .Signup-form{
   margin: 50px auto ;
-
-  background: #cfcbff;
+  background: #a1a1d1;
   padding: 40px;
   clear: both;
   box-sizing: border-box;
   height: auto;
   border-radius: 10px;
-  box-shadow: 5px 5px 5px  rgb(138, 138, 138);
+  box-shadow: 5px 5px 5px  rgb(0, 0, 0);
   text-align: center;
   width: 60%;
   display: inline-block;

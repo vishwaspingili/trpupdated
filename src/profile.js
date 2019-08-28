@@ -6,16 +6,24 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Upload from './Upload';
+
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile:{}
+      profile:{},
+      upload:false
     }
 
   }
-  
+uploadresume(e){
+  this.setState({
+    upload:true,
+
+  })
+}
   submit(e) {
     this.setState({
       username: "",
@@ -33,6 +41,11 @@ handleChange(e) {
 }
 
 render() {
+  if(this.state.upload){
+   return(
+    <Upload />
+   )
+  }
     return (
       <div >           
         <h1>Add Profile </h1>
@@ -262,8 +275,14 @@ render() {
             color="primary"
             aria-label="full-width contained primary button group"
         >
+          <Button type="file" variant="contained" color="primary" onClick={(e) => this.uploadresume(e)}>
+          uploadResume
+
+        </Button>
+
         <Button type="submit" variant="contained" color="primary" onClick={(e) => this.submit(e)}>
           Submit
+
         </Button>
         <Button type="button" variant="contained" color="primary" onClick={(e) => this.backtodatagrid(e)}>
         Back

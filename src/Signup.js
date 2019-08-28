@@ -35,7 +35,11 @@ class Signup extends Component {
     this.setState({
       username: "",
       showLogin: true
+
     })
+     this.setState({
+            is_valid_user: true
+          } )
   }
   
   addregister(e) {

@@ -8,13 +8,20 @@ class Upload extends Component {
     }
   }
   submit(e) {
-    this.setState({
-      username: "",
-      showLogin: true
-    })
+    // this.setState({
+    //   username: "",
+    //   showLogin: true
+    // })
+    // this.props.handelresume()
+  }
+
+  handleChange(e){
+    console.log(e[0]);
+    console.log(e[0].name);
+    // this.props.uploadResume(this.props.indexSelected, e[0]);
   }
   backtodatagrid(e){
-    this.props.handelresume()
+    // this.props.handelresume()
     }
     
   render() {
@@ -24,7 +31,7 @@ class Upload extends Component {
             <br />
             <h1>Upload Resume</h1> 
 
-          <center><input type="file" name="drag and drop" multiple /></center>
+          <center><input type="file" name="drag and drop" onChange={ (e) => this.handleChange(e.target.files) } /></center>
           <br />
           <center> <input type="submit" onClick={(e) => this.submit(e)} value="Submit" /></center>
           <br />
