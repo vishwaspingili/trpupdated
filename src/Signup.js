@@ -37,7 +37,7 @@ class Signup extends Component {
       showLogin: true
 
     })
-     this.setState({
+    this.setState({
             is_valid_user: true
           } )
   }
@@ -72,6 +72,9 @@ handelregister = () => {
   }
   validate(errors) {
 
+    this.setState({
+      is_valid_user: true
+    });
     this.switch("login")
 
     console.log(errors)
@@ -94,7 +97,7 @@ handelregister = () => {
           // result.responseCode.errorCode==="0"
           this.setState({
             is_valid_user: true
-          } )
+          })
         }
         else{this.setState({
           errormessage:"Invalid User Id or Password."

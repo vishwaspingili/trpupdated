@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.3.3",
+    "joi": "^14.3.1",
     "react": "^16.8.6",
     "react-data-grid": "^6.1.0",
     "react-data-grid-addons": "^6.1.0",

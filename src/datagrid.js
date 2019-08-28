@@ -24,7 +24,7 @@ const columns = [
 const details = ['id','Date','Name','phone','Role','visa','status','resume','details']
 let filterData = [];
 let count = 0;
-let resume={};
+// let resume={};
 let today = new Date();
 let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 console.log(today.getFullYear());
@@ -38,7 +38,12 @@ console.log(today.getFullYear());
 //             { id: 7, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'sam', phone: 123499, Role: 'angular', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
 //             { id: 8, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'ram', phone: 123475, Role: 'react', Visa: 'h1', Status: 'home project', resume: '', details: '' },
 //             { id: 9, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'krish', phone: 125556, Role: 'java', Visa: 'gc', Status: 'on bench', resume: '', details: '' }]
-
+//comment
+let resume = [
+    {id: 0,Date: "28/08/2019", Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
+    { id: 1,Date: "28/08/2019", Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
+    { id: 2,Date: "28/08/2019", Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' }
+]
 class Customgrid extends Component {
     constructor() {
         super()
@@ -52,8 +57,14 @@ class Customgrid extends Component {
             newResume: false,
             oldResume: false,
             wip: false,
-            showButton: false
+            showButton: false,
+            profileData: {},
+            showUpdate: false
         }
+    }
+
+    profileData(data) {
+        this.setState({profileData: data})
     }
 
     validate(e) {
@@ -155,28 +166,25 @@ class Customgrid extends Component {
     };
     newResume() {
         this.setState({newResume: true});
-        resume = this.state.data.newResourceDetailDTO.newResourceDetailList;
-        // const resume = [{ id: 0, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
-        //     { id: 1, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
-        //     { id: 2, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' },
-        //     { id: 3, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'peter', phone: 443456, Role: 'devops', Visa: 'h4', Status: 'on peoject', resume: '', details: '' },
-        //     { id: 4, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'kin', phone: 123556, Role: 'db', Visa: 'gc', Status: 'consultancy', resume: '', details: '' },
-        //     { id: 5, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'tin', phone: 123116, Role: 'hadoop', Visa: 'l1', Status: 'TC consultant', resume: '', details: '' },
-        //     { id: 6, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'duffy', phone: 125556, Role: 'testing', Visa: 'stem opt', Status: '', resume: '', details: '' },
-        //     { id: 7, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'sam', phone: 123499, Role: 'angular', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
-        //     { id: 8, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'ram', phone: 123475, Role: 'react', Visa: 'h1', Status: 'home project', resume: '', details: '' },
-        //     { id: 9, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'krish', phone: 125556, Role: 'java', Visa: 'gc', Status: 'on bench', resume: '', details: '' }]
-
+        //uncomment
+        //resume = this.state.data.newResourceDetailDTO.newResourceDetailList;
+        // const resume = [
+        //     {id: 0,Date: "28/08/2019", Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
+        //     { id: 1,Date: "28/08/2019", Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
+        //     { id: 2,Date: "28/08/2019", Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' }
+        // ]
         this.filteredData(resume);
     }
     wip() {
         this.setState({wip: true});
-         resume = this.state.data.wipResourceDetailDTO.wipResourceDetailList;
+        //uncomment
+        //resume = this.state.data.wipResourceDetailDTO.wipResourceDetailList;
         this.filteredData(resume);
     }
     oldResume(){
         this.setState({oldResume: true});
-        resume = this.state.data.compResourceDetailDTO.compResourceDetailList;
+        //uncomment
+        //resume = this.state.data.compResourceDetailDTO.compResourceDetailList;
         this.filteredData(resume);
     }
     uploadResume(index, file) {
@@ -188,17 +196,28 @@ class Customgrid extends Component {
 
     filteredData(fullData) {
         filterData = [];
-        fullData.map(row=> {
+        //fullData.map(row=> {
+        fullData.map(singleRow=> {
             let rows = {}
-            let {firstName, statusDTO, lastModifiedTs, resourceId, primaryPhone, desiredPosition, resume, details} = row
-            rows['Name'] = firstName;
-            rows['Status'] = statusDTO.statusDesc;
-            rows['Date'] = lastModifiedTs;
-            rows['id'] = resourceId;
-            rows['phone'] = primaryPhone;
-            rows['Role'] = desiredPosition;
-            rows['resume'] = resume;
-            rows['details'] = details;
+            //uncomment all
+            //let {firstName, statusDTO, lastModifiedTs, resourceId, primaryPhone, desiredPosition, resume, details} = row
+            // rows['Name'] = firstName;
+            // rows['Status'] = statusDTO.statusDesc;
+            // rows['Date'] = lastModifiedTs;
+            // rows['id'] = resourceId;
+            // rows['phone'] = primaryPhone;
+            // rows['Role'] = desiredPosition;
+            // rows['resume'] = resume;
+            // rows['details'] = details;
+            rows['Name'] = singleRow.Name;
+            rows['Status'] = singleRow.Status;
+            rows['Date'] = singleRow.Date;
+            rows['id'] = singleRow.id;
+            rows['phone'] = singleRow.phone;
+            rows['Role'] = singleRow.Role;
+            rows['resume'] = singleRow.resume;
+            rows['details'] = singleRow.details;
+
             filterData.push(rows)
         });
         this.setState({rows: filterData})
@@ -237,12 +256,23 @@ class Customgrid extends Component {
             )
         }
         if (this.state.updateprofileclicked) {
+            // console.log(JSON.parse(sessionStorage.getItem('FirstName')));
+            // console.log(JSON.parse(sessionStorage.getItem('LastName')));
+            // console.log(JSON.parse(sessionStorage.getItem('Email')));
+            // console.log(JSON.parse(sessionStorage.getItem('createdUserId')));
+            console.log(this.state.selectedIndexes, filterData[this.state.selectedIndexes]);
             return (
-                <Register handelregister={this.handelregister}/>
+                // <Register handelregister={this.handelregister}/>
+                // <Upload indexSelected={this.state.selectedIndexes} uploadResume={(index, file) => this.uploadResume(index, file)} handelresume={this.handelresume}/>
+                //profileData={(data) => this.profileData(data)}
+                //idSelected={this.state.data.id}
+                <Profile idSelected={filterData[this.state.selectedIndexes]} updateprofileflag={true} handelprofile={this.handelprofile} />
             )
         }
         if (this.state.addresumesclicked) {
+            
             return (
+                
                 <Upload indexSelected={this.state.selectedIndexes} uploadResume={(index, file) => this.uploadResume(index, file)} handelresume={this.handelresume}/>
             )
         }
@@ -306,9 +336,9 @@ class Customgrid extends Component {
             <Button type="submit" variant="contained" color="primary" onClick={(e) => this.validate(e)}>Search</Button>
             <Button type="submit" variant="contained" color="primary" onClick={(e) => this.clearsearch(e)}>Clear Search</Button>  
             <Button onClick={(e) => this.addprofile(e)}>Add profile</Button>
-            <Button onClick={(e) => this.updateprofile(e)}>Update profile</Button>
+            <Button disabled= {!this.state.showButton} onClick={(e) => this.updateprofile(e)}>Update profile</Button>
             
-            <Button disabled={!this.state.showButton} onClick={(e) => this.addresumes(e)}>Add Resume</Button>
+            {/* <Button disabled={!this.state.showButton} onClick={(e) => this.addresumes(e)}>Add Resume</Button> */}
             <Button onClick={(e) => this.logout(e)}>Logout</Button>
             </ButtonGroup>
           </Grid>
