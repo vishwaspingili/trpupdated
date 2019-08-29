@@ -29,41 +29,39 @@ uploadresume(){
   })
 }
 
-componentDidMount() {
-  //console.log(this.props.idSelected.id);
-  fetch(`http://172.16.75.112:8080/trp/getResourceById/${this.props.idSelected.id}`,{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'cache-control': 'no-cache',
-        },  
-        body: JSON.stringify({}),
-      })  
+async componentDidMount() {
+  if(this.props.updateprofileflag){
+
+  console.log(this.props.idSelected);
+  await fetch(`http://172.16.75.112:8080/trp/getResourceById/${this.props.idSelected.id}`)
+          
       .then(res => res.json())
             .then(
               (result) => {  
                 console.log(result) 
                 sessionStorage.setItem("data", JSON.stringify(result));
+                updateData = JSON.parse(sessionStorage.getItem("data"));
+
                 //JSON.parse(sessionStorage.getItem("data"));
                 this.setState({
                   getResourceById: JSON.parse(sessionStorage.getItem("data"))
                 })
-                updateData = JSON.parse(sessionStorage.getItem("data"));
-                this.props.handelprofile();
+                console.log(updateData)
+                // this.props.handelprofile();
               }
             ).catch(err => {
               console.log(err)
             })
 }
-
+}
 async submit() {
     if(this.validate()) {
       console.log("1111111111111111");
-      sessionStorage.setItem("FirstName", this.state.FirstName);
-      sessionStorage.setItem("LastName", this.state.LastName);
-      sessionStorage.setItem("Email", this.state.Email);
-      sessionStorage.setItem("createdUserId", this.state.createdUserId);
-      sessionStorage.setItem("lastModifiedUserId", this.state.lastModifiedUserId);
+      // sessionStorage.setItem("FirstName", this.state.FirstName);
+      // sessionStorage.setItem("LastName", this.state.LastName);
+      // sessionStorage.setItem("Email", this.state.Email);
+      // sessionStorage.setItem("createdUserId", this.state.createdUserId);
+      // sessionStorage.setItem("lastModifiedUserId", this.state.lastModifiedUserId);
       // this.props.profileData(this.state);
       await fetch("http://172.16.75.112:8080/trp/saveResource",{
         method: 'POST',

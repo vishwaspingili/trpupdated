@@ -37,10 +37,10 @@ class Signup extends Component {
       showLogin: true
 
     })
-    this.setState({
-            is_valid_user: true
-          } )
-  }
+  //   this.setState({
+  //           is_valid_user: true
+  //         } )
+   }
   
   addregister(e) {
     this.setState({
@@ -72,9 +72,9 @@ handelregister = () => {
   }
   validate(errors) {
 
-    this.setState({
-      is_valid_user: true
-    });
+    // this.setState({
+    //   is_valid_user: true
+    // });
     this.switch("login")
 
     console.log(errors)

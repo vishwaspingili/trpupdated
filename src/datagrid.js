@@ -24,7 +24,7 @@ const columns = [
 const details = ['id','Date','Name','phone','Role','visa','status','resume','details']
 let filterData = [];
 let count = 0;
-// let resume={};
+ let resume={};
 let today = new Date();
 let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 console.log(today.getFullYear());
@@ -39,11 +39,11 @@ console.log(today.getFullYear());
 //             { id: 8, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'ram', phone: 123475, Role: 'react', Visa: 'h1', Status: 'home project', resume: '', details: '' },
 //             { id: 9, Date: today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+"::"+time, Name: 'krish', phone: 125556, Role: 'java', Visa: 'gc', Status: 'on bench', resume: '', details: '' }]
 //comment
-let resume = [
-    {id: 0,Date: "28/08/2019", Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
-    { id: 1,Date: "28/08/2019", Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
-    { id: 2,Date: "28/08/2019", Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' }
-]
+// let resume = [
+//     {id: 0,Date: "28/08/2019", Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
+//     { id: 1,Date: "28/08/2019", Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
+//     { id: 2,Date: "28/08/2019", Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' }
+// ]
 class Customgrid extends Component {
     constructor() {
         super()
@@ -167,24 +167,24 @@ class Customgrid extends Component {
     newResume() {
         this.setState({newResume: true});
         //uncomment
-        //resume = this.state.data.newResourceDetailDTO.newResourceDetailList;
-        // const resume = [
-        //     {id: 0,Date: "28/08/2019", Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
-        //     { id: 1,Date: "28/08/2019", Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
-        //     { id: 2,Date: "28/08/2019", Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' }
-        // ]
+        resume = this.state.data.newResourceDetailDTO.newResourceDetailList;
+        //  const resume = [
+        //      {id: 0,Date: "28/08/2019", Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
+        //      { id: 1,Date: "28/08/2019", Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
+        //      { id: 2,Date: "28/08/2019", Name: 'kane', phone: 333456, Role: 'oracle', Visa: 'h1', Status: 'home project', resume: '', details: '' }
+        //  ]
         this.filteredData(resume);
     }
     wip() {
         this.setState({wip: true});
         //uncomment
-        //resume = this.state.data.wipResourceDetailDTO.wipResourceDetailList;
+       resume = this.state.data.wipResourceDetailDTO.wipResourceDetailList;
         this.filteredData(resume);
     }
     oldResume(){
         this.setState({oldResume: true});
         //uncomment
-        //resume = this.state.data.compResourceDetailDTO.compResourceDetailList;
+      resume = this.state.data.compResourceDetailDTO.compResourceDetailList;
         this.filteredData(resume);
     }
     uploadResume(index, file) {
@@ -196,27 +196,27 @@ class Customgrid extends Component {
 
     filteredData(fullData) {
         filterData = [];
-        //fullData.map(row=> {
-        fullData.map(singleRow=> {
+        fullData.map(row=> {
+        // fullData.map(singleRow=> {
             let rows = {}
             //uncomment all
-            //let {firstName, statusDTO, lastModifiedTs, resourceId, primaryPhone, desiredPosition, resume, details} = row
-            // rows['Name'] = firstName;
-            // rows['Status'] = statusDTO.statusDesc;
-            // rows['Date'] = lastModifiedTs;
-            // rows['id'] = resourceId;
-            // rows['phone'] = primaryPhone;
-            // rows['Role'] = desiredPosition;
-            // rows['resume'] = resume;
-            // rows['details'] = details;
-            rows['Name'] = singleRow.Name;
-            rows['Status'] = singleRow.Status;
-            rows['Date'] = singleRow.Date;
-            rows['id'] = singleRow.id;
-            rows['phone'] = singleRow.phone;
-            rows['Role'] = singleRow.Role;
-            rows['resume'] = singleRow.resume;
-            rows['details'] = singleRow.details;
+            let {firstName, statusDTO, lastModifiedTs, resourceId, primaryPhone, desiredPosition, resume, details} = row
+             rows['Name'] = firstName;
+             rows['Status'] = statusDTO.statusDesc;
+             rows['Date'] = lastModifiedTs;
+             rows['id'] = resourceId;
+             rows['phone'] = primaryPhone;
+             rows['Role'] = desiredPosition;
+             rows['resume'] = resume;
+             rows['details'] = details;
+            // rows['Name'] = singleRow.Name;
+            // rows['Status'] = singleRow.Status;
+            // rows['Date'] = singleRow.Date;
+            // rows['id'] = singleRow.id;
+            // rows['phone'] = singleRow.phone;
+            // rows['Role'] = singleRow.Role;
+            // rows['resume'] = singleRow.resume;
+            // rows['details'] = singleRow.details;
 
             filterData.push(rows)
         });
@@ -290,11 +290,11 @@ class Customgrid extends Component {
 
         // if(this.state.oldResume) {
         //     const oldResume = this.state.data.newResourceDetailDTO.newResourceDetailList;
-        //     filteredData(oldResume);
+        //      this.filteredData(oldResume);
         // }
         // if(this.state.wip) {
         //     const wip = this.state.data.newResourceDetailDTO.newResourceDetailList;
-        //     filteredData(wip);
+        //     this.filteredData(wip);
         // }
 
         return (
