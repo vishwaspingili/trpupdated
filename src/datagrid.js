@@ -70,7 +70,7 @@ class Customgrid extends Component {
     validate(e) {
         const userRole = document.getElementById("id").value;
         const username = document.getElementById("user_name").value
-        
+
         var result = this.state.rows.filter(function (v, i) {
             return ((v["Name"] === username) || v.Role === userRole);
         })
@@ -98,20 +98,20 @@ class Customgrid extends Component {
     }
     handelprofile = () => {
         this.setState({
-            addprofileclicked: false, 
+            addprofileclicked: false,
             updateprofileclicked: false
 
         })
     }
-    
+
     handelregister = () => {
         this.setState({
             updateprofileclicked: false,
-            addprofileclicked: false, 
+            addprofileclicked: false,
 
         })
     }
-    
+
     addresumes(e){
         this.setState({
             addresumesclicked:true
@@ -127,8 +127,8 @@ class Customgrid extends Component {
         this.setState({
             addresumesclicked:false
         })
-        
-}    
+
+}
     onRowsSelected = rows => {
         count+=1;
         console.log(rows);
@@ -149,7 +149,7 @@ class Customgrid extends Component {
     onRowsDeselected = rows => {
     count-=1;
     let rowIndexes = rows.map(r => r.rowIdx);
-    
+
     this.setState({
         selectedIndexes: this.state.selectedIndexes.filter(
         i => rowIndexes.indexOf(i) === -1
@@ -187,6 +187,12 @@ class Customgrid extends Component {
       resume = this.state.data.compResourceDetailDTO.compResourceDetailList;
         this.filteredData(resume);
     }
+    // uploadResume(index, file) {
+    //     console.log(index,file);
+    //     resume.forEach(z=> z.id == index ? (z.resume = file.name, z.details = (Math.floor(file.size/1024))+"Kb") : "")
+    //     console.log(resume);
+    //     this.filteredData(resume);
+    // }
     uploadResume(index, file) {
         console.log(index,file);
         resume.forEach(z=> z.id == index ? (z.resume = file.name, z.details = (Math.floor(file.size/1024))+"Kb") : "")
@@ -232,12 +238,12 @@ class Customgrid extends Component {
             },  body: JSON.stringify({}),
             })
             .then(res => res.json())
-            .then(result => { 
-                console.log(result) 
+            .then(result => {
+                console.log(result)
                 if(result.responseCode.errorCode==="0"){
                     this.setState({data: result})
-                    console.log(this.state.data) 
-   
+                    console.log(this.state.data)
+
                 }
                 else{
                     this.setState({errormessage:"Invalid User Id or Password."})
@@ -252,7 +258,7 @@ class Customgrid extends Component {
     render() {
         if (this.state.addprofileclicked) {
             return (
-                <Profile handelprofile={this.handelprofile} />
+                <Profile addProfile={true} handelprofile={this.handelprofile} />
             )
         }
         if (this.state.updateprofileclicked) {
@@ -270,10 +276,8 @@ class Customgrid extends Component {
             )
         }
         if (this.state.addresumesclicked) {
-            
             return (
-                
-                <Upload indexSelected={this.state.selectedIndexes} uploadResume={(index, file) => this.uploadResume(index, file)} handelresume={this.handelresume}/>
+                <Upload indexSelected={this.state.selectedIndexes} uploadResume={this.uploadResume()} handelresume={this.handelresume}/>
             )
         }
         if(this.state.logout) {
@@ -284,7 +288,7 @@ class Customgrid extends Component {
 
         // if(this.state.newResume) {
         //     const newResume = this.state.data.newResourceDetailDTO.newResourceDetailList;
-            
+
         //     this.filteredData(resume);
         // }
 
@@ -316,7 +320,7 @@ class Customgrid extends Component {
                     id="id"
                     label="Enter Role"
                     margin="normal"
-                    name="User Id" 
+                    name="User Id"
                 />
                 <TextField
                     id="user_name"
@@ -334,11 +338,11 @@ class Customgrid extends Component {
             aria-label="full-width contained primary button group"
         >
             <Button type="submit" variant="contained" color="primary" onClick={(e) => this.validate(e)}>Search</Button>
-            <Button type="submit" variant="contained" color="primary" onClick={(e) => this.clearsearch(e)}>Clear Search</Button>  
+            <Button type="submit" variant="contained" color="primary" onClick={(e) => this.clearsearch(e)}>Clear Search</Button>
             <Button onClick={(e) => this.addprofile(e)}>Add profile</Button>
             <Button disabled= {!this.state.showButton} onClick={(e) => this.updateprofile(e)}>Update profile</Button>
-            
-            {/* <Button disabled={!this.state.showButton} onClick={(e) => this.addresumes(e)}>Add Resume</Button> */}
+
+            <Button onClick={(e) => this.addresumes(e)}>Resume Bulk upload</Button>
             <Button onClick={(e) => this.logout(e)}>Logout</Button>
             </ButtonGroup>
           </Grid>
