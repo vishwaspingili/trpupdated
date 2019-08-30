@@ -34,11 +34,11 @@ async componentDidMount() {
 
   console.log(this.props.idSelected);
   await fetch(`http://172.16.75.112:8080/trp/getResourceById/${this.props.idSelected.id}`)
-          
+
       .then(res => res.json())
             .then(
-              (result) => {  
-                console.log(result) 
+              (result) => {
+                console.log(result)
                 sessionStorage.setItem("data", JSON.stringify(result));
                 updateData = JSON.parse(sessionStorage.getItem("data"));
 
@@ -68,20 +68,22 @@ async submit() {
         headers: {
           'Content-Type': 'application/json',
           'cache-control': 'no-cache',
-        },  
+        },
         body: JSON.stringify({
-          createdUserId: this.state.createdUserId,
-          lastModifiedUserId: this.state.lastModifiedUserId,
+          // createdUserId: this.state.createdUserId,
+          // lastModifiedUserId: this.state.lastModifiedUserId,
+          createdUserId: sessionStorage.getItem('UserId'),
+          lastModifiedUserId: sessionStorage.getItem('UserId'),
           firstName: this.state.FirstName,
           lastName: this.state.LastName,
           resourceEmail: this.state.Email,
           }),
-  
-      })  
+
+      })
       .then(res => res.json())
             .then(
-              (result) => {  
-                console.log(result) 
+              (result) => {
+                console.log(result)
                 this.setState({
                   postResult: true
                 } )
@@ -126,8 +128,8 @@ Joi.validate(valid, schema, (err,value)=> {
   errors["FirstName"] = err.message.includes("FirstName") ? err.message : "";
   errors["LastName"] = err.message.includes("LastName") ? err.message : "";
   errors["Email"] = err.message.includes("Email") ? err.message : "";
-  errors["createdUserId"] = err.message.includes("createdUserId") ? err.message : "";
-  errors["lastModifiedUserId"] = err.message.includes("lastModifiedUserId") ? err.message : "";
+  // errors["createdUserId"] = err.message.includes("createdUserId") ? err.message : "";
+  // errors["lastModifiedUserId"] = err.message.includes("lastModifiedUserId") ? err.message : "";
   console.log(err.message,errors);
   valueflag = false;
   this.setState({
@@ -152,7 +154,7 @@ render() {
   }
     return (
       <div style={{backgroundColor: '#e0ebeb', textAlign: 'center'}}>
-        <br/>      
+        <br/>
         <h1>Add Profile </h1>
         <ul className="nav">
         <li>
@@ -162,7 +164,7 @@ render() {
             margin="normal"
             onChange={(e) => this.handleChange(e)}
             name="FirstName"
-            variant="outlined" 
+            variant="outlined"
             value={this.props.updateprofileflag ? updateData.firstName : this.state.FirstName}
         />
         <div className="errorMsg">{errors["FirstName"]}</div>
@@ -217,7 +219,6 @@ render() {
             name="Address"
             variant="outlined"
           />
-
         </li>
         <br />
         <li>
@@ -236,18 +237,21 @@ render() {
           <MenuItem value={30}>Thirty</MenuItem>
         </Select>
         </li>
+        <br />
         <li>
-        <InputLabel htmlFor="city">Select a City</InputLabel>
-        <Select
-        input={<OutlinedInput name="City" id="state" />}
+
+        <TextField
+          id="City"
+          label="City"
           onChange={(e) => this.handleChange(e)}
-        >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
+          margin="normal"
+          name="City"
+          variant="outlined"
+          value={this.props.updateprofileflag ? updateData.City : this.state.City}
+        />
         </li>
-        </ul>
+      </ul>
+      <br/>
         <ul className="nav">
           <li>
         <TextField
@@ -267,38 +271,6 @@ render() {
           name="CurrentProject"
           variant="outlined"
         />
-        </li><br/><li>
-        <TextField
-          id="Previous Project"
-          label="Previous Project"
-          onChange={(e) => this.handleChange(e)}
-          margin="normal"
-          name="PreviousProject"
-          variant="outlined"
-        />
-        </li>
-        </ul>
-        <ul className="nav">
-          <li>
-        <TextField
-          id="createdUserId"
-          label="createdUserId*"
-          onChange={(e) => this.handleChange(e)}
-          margin="normal"
-          name="createdUserId"
-          variant="outlined"
-        />
-        <div className="errorMsg">{errors["createdUserId"]}</div>
-          </li><br/><li>
-          <TextField
-          id="lastModifiedUserId*"
-          label="lastModifiedUserId"
-          onChange={(e) => this.handleChange(e)}
-          margin="normal"
-          name="lastModifiedUserId"
-          variant="outlined"
-        />
-        <div className="errorMsg">{errors["lastModifiedUserId"]}</div>
         </li><br/><li>
         <TextField
           id="Previous Project"

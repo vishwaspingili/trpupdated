@@ -41,7 +41,7 @@ class Signup extends Component {
   //           is_valid_user: true
   //         } )
    }
-  
+
   addregister(e) {
     this.setState({
       addregisterclicked: true
@@ -91,10 +91,11 @@ handelregister = () => {
     })
     .then(res => res.json())
     .then(
-      (result) => {  
-        console.log(result) 
+      (result) => {
+        console.log(result)
         if(result.responseCode.errorCode==="0"){
           // result.responseCode.errorCode==="0"
+          sessionStorage.setItem('userId', this.state.UserId);
           this.setState({
             is_valid_user: true
           })
@@ -107,7 +108,7 @@ handelregister = () => {
       console.log(err)
     })
   }
-}  
+}
 
 Signupcontent() {
   return (
@@ -138,7 +139,7 @@ logincontent() {
     // this.setState({errpassword: errors.password})
   }
 
-  
+
   return (
     <div>
       <div className="Login-form">
@@ -152,7 +153,7 @@ logincontent() {
         name="UserId"
       />
       <div className="errorMsg">{errors.username}</div>
-      <TextField  
+      <TextField
         id="standard-name"
         label="Enter Password"
         onChange={(e) => this.handleChange(e)}
@@ -170,12 +171,12 @@ logincontent() {
         <br />
         <br />
         <Button onClick={(errors) => this.validate(errors)} variant="contained" color="primary" >
-          Login 
+          Login
         </Button>
         {/* <input type="submit" value="Login" /> */}
         {/* <div className="registerbtn" onClick={(e) => this.switch(e)}>Register Now</div> */}
         <Link to="/register">Register Now</Link>
-        <br />     
+        <br />
         <p>
           {this.state.errormessage}
         </p>
@@ -195,7 +196,7 @@ logincontent() {
           <Customgrid/>
           </div>
       )
-    } 
+    }
 
     let content = ''
     if (this.state.showLogin) {
