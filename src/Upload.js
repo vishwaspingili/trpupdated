@@ -9,7 +9,7 @@ class Upload extends Component {
   }
   submit(e) {
     if(fileupl.length > 0) {
-      fetch('http://172.16.75.55:8080/trp/uploadResume', {
+      fetch('http://172.16.75.55:8081/trp/uploadResume', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

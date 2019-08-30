@@ -230,7 +230,7 @@ class Customgrid extends Component {
     }
 
     componentDidMount() {
-        fetch("http://172.16.75.112:8080/trp/searchResource",{
+        fetch("http://172.16.75.112:8081/trp/searchResource",{
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -273,7 +273,8 @@ class Customgrid extends Component {
                 //profileData={(data) => this.profileData(data)}
                 //idSelected={this.state.data.id}
                 <Profile idSelected={filterData[this.state.selectedIndexes]} updateprofileflag={true} handelprofile={this.handelprofile} />
-            )
+            
+                )
         }
         if (this.state.addresumesclicked) {
             return (

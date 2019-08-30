@@ -8,6 +8,9 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Upload from './Upload';
+import Input from '@material-ui/core/Input';
+
+
 const Joi = require('joi');
 
 let errors = {};
@@ -32,11 +35,11 @@ uploadresume(value, fileInput, length){
 
 }
 
-async componentDidMount() {
+async componentWillMount() {
   if(this.props.updateprofileflag){
 
   console.log(this.props.idSelected);
-  await fetch(`http://172.16.75.112:8080/trp/getResourceById/${this.props.idSelected.id}`)
+  await fetch(`http://172.16.75.112:8081/trp/getResourceById/${this.props.idSelected.id}`)
 
       .then(res => res.json())
             .then(
@@ -50,6 +53,7 @@ async componentDidMount() {
                   getResourceById: JSON.parse(sessionStorage.getItem("data"))
                 })
                 console.log(updateData)
+                return true
                 // this.props.handelprofile();
               }
             ).catch(err => {
@@ -58,7 +62,7 @@ async componentDidMount() {
 }
 }
 async submit() {
-    if(this.validate()) {
+    if(this.props.updateprofileflag ?true : this.validate() ) {
       console.log("1111111111111111");
       // sessionStorage.setItem("FirstName", this.state.FirstName);
       // sessionStorage.setItem("LastName", this.state.LastName);
@@ -66,7 +70,7 @@ async submit() {
       // sessionStorage.setItem("createdUserId", this.state.createdUserId);
       // sessionStorage.setItem("lastModifiedUserId", this.state.lastModifiedUserId);
       // this.props.profileData(this.state);
-      await fetch("http://172.16.75.112:8080/trp/saveResource",{
+      await fetch("http://172.16.75.112:8081/trp/saveResource",{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,22 +79,22 @@ async submit() {
         body: JSON.stringify({
           // createdUserId: this.state.createdUserId,
           // lastModifiedUserId: this.state.lastModifiedUserId,
-          createdUserId: sessionStorage.getItem('UserId'),
-          lastModifiedUserId: sessionStorage.getItem('UserId'),
-          firstName: this.state.FirstName,
-          lastName: this.state.LastName,
-          resourceEmail: this.state.Email,
-          city: this.state.city,
-          clientName: this.state.clientName,
-          currProject: this.state.currProject,
-          desiredPosition: this.state.desiredPosition,
-          notes: this.state.notes,
-          primaryPhone: this.state.primaryPhone,
-          landLine: this.state.landLine,
-          prevProject: this.state.prevProject,
-          relocate: this.state.relocate,
-          resourceExp: this.state.resourceExp,
-          zip: this.state.zip,
+          createdUserId: sessionStorage.getItem('userId'),
+          lastModifiedUserId: sessionStorage.getItem('userId'),
+          firstName: this.props.updateprofileflag  ?this.state.firstName :updateData.firstName  ,
+          lastName: this.props.updateprofileflag  ?  this.state.lastName: updateData.lastName,
+          resourceEmail: this.props.updateprofileflag  ? this.state.resourceEmail:updateData.resourceEmail,
+          city: this.props.updateprofileflag  ?  this.state.city: updateData.city,
+          clientName:this.props.updateprofileflag  ?  this.state.clientName:updateData.clientName,
+          currProject: this.props.updateprofileflag  ? this.state.currProject:updateData.currProject,
+          desiredPosition: this.props.updateprofileflag  ? this.state.desiredPosition:updateData.desiredPosition,
+          notes: this.props.updateprofileflag  ? this.state.notes:updateData.notes,
+          primaryPhone: this.props.updateprofileflag  ? this.state.primaryPhone: updateData.primaryPhone,
+          landLine: this.props.updateprofileflag  ? this.state.landLine:updateData.landLine,
+          prevProject: this.props.updateprofileflag  ? this.state.prevProject:updateData.prevProject,
+          relocate: this.props.updateprofileflag  ? this.state.relocate:updateData.relocate,
+          resourceExp: this.props.updateprofileflag  ? this.state.resourceExp:updateData.resourceExp,
+          zip: this.props.updateprofileflag  ? this.state.zip:updateData.zip,
           }),
 
       })
@@ -125,15 +129,15 @@ validate() {
     FirstName: this.state.firstName,
     LastName: this.state.lastName,
     Email: this.state.resourceEmail,
-    createdUserId: this.state.createdUserId,
-    lastModifiedUserId: this.state.lastModifiedUserId
+    // createdUserId: this.state.createdUserId,
+    // lastModifiedUserId: this.state.lastModifiedUserId
   }
   const schema = {
     FirstName: Joi.string().min(5).max(15).required().error(new Error("FirstName is required")),
     LastName: Joi.string().min(5).max(15).required().error(new Error("LastName is required")),
     Email: Joi.string().required().email({ minDomainAtoms: 2 }).error(new Error("Valid Email is required")),
-    createdUserId: Joi.string().required().error(new Error("createdUserId is required")),
-    lastModifiedUserId: Joi.string().required().error(new Error("lastModifiedUserId is required"))
+    // createdUserId: Joi.string().required().error(new Error("createdUserId is required")),
+    // lastModifiedUserId: Joi.string().required().error(new Error("lastModifiedUserId is required"))
 };
 Joi.validate(valid, schema, (err,value)=> {
   console.log(value);
@@ -166,28 +170,34 @@ render() {
     <Upload uploadresume={this.uploadresume}/>
    )
   }
+  
     return (
       <div style={{backgroundColor: '#e0ebeb', textAlign: 'center'}}>
         <br/>
         <h1>{ this.props.addProfile ? "Add Profile" : "Update Profile"}</h1>
         <ul className="nav">
         <li>
-        <TextField
+        <label>firstName: </label>
+
+        <input
+        
             id="firstName"
-            label={this.props.updateprofileflag ? "" :"First name*"}
+            label="First name*"
             margin="normal"
             onChange={(e) => this.handleChange(e)}
             name="firstName"
             variant="outlined"
-            defaultValue={this.props.updateprofileflag ? updateData.firstName : this.state.firstName}
+            defaultValue={this.props.updateprofileflag  ? updateData.firstName : updateData.firstName}
         />
         <div className="errorMsg">{errors["FirstName"]}</div>
         </li>
         <br />
         <li>
-        <TextField
+        <label> LastName: </label>
+
+        <input
           id="LastName"
-          label={this.props.updateprofileflag ? "" :"Last name*"}
+          label="Last name*"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="lastName"
@@ -198,9 +208,11 @@ render() {
         </li>
         <br />
         <li>
-        <TextField
+        <label> Email: </label>
+
+        <input
           id="Email"
-          label={this.props.updateprofileflag ? "" :"Email*"}
+          label="Email*"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="resourceEmail"
@@ -209,13 +221,16 @@ render() {
         />
         <div className="errorMsg">{errors["Email"]}</div>
         </li>
+        
         </ul>
         <br />
         <ul className="nav">
           <li>
-            <TextField
+          <label>primaryPhone: </label>
+
+            <input
               id="primaryPhone"
-              label={this.props.updateprofileflag ? "" :"primaryPhone"}
+              label="primaryPhone"
               onChange={(e) => this.handleChange(e)}
               margin="normal"
               name="primaryPhone"
@@ -225,9 +240,11 @@ render() {
           </li>
           <br />
           <li>
-          <TextField
+          <label> SecondaryPhone: </label>
+
+          <input
             id="landLine"
-            label={this.props.updateprofileflag ? "" :"landLine"}
+            label="landLine"
             onChange={(e) => this.handleChange(e)}
             margin="normal"
             name="landLine"
@@ -237,9 +254,10 @@ render() {
         </li>
         <br />
         <li>
-          {/* <InputLabel htmlFor="outlined-age-simple">
+
+          <InputLabel htmlFor="outlined-age-simple">
           Select a State
-          </InputLabel> */}
+          </InputLabel>
         <Select
           input={<OutlinedInput name="state" id="state" />}
           onChange={(e) => this.handleChange(e)}
@@ -255,10 +273,11 @@ render() {
         </li>
         <br />
         <li>
+        <label> city: </label>
 
-        <TextField
+        <input
           id="city"
-          label={this.props.updateprofileflag ? "" :"city"}
+          label="city"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="city"
@@ -270,9 +289,11 @@ render() {
       <br/>
         <ul className="nav">
           <li>
-        <TextField
+          <label> Zip Code: </label>
+
+        <input
           id="Zip Code"
-          label={this.props.updateprofileflag ? "" :"Zip Code"}
+          label="Zip Code"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="zip"
@@ -280,9 +301,11 @@ render() {
           defaultValue={this.props.updateprofileflag ? updateData.zip : this.state.zip}
         />
           </li><br/><li>
-          <TextField
+          <label> Current Project: </label>
+
+          <input
           id="Current Project"
-          label={this.props.updateprofileflag ? "" :"Current Project"}
+          label="Current Project"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="currProject"
@@ -290,43 +313,51 @@ render() {
           defaultValue={this.props.updateprofileflag ? updateData.currProject : this.state.currProject}
         />
         </li><br/><li>
-        <TextField
+        <label>Desired Position</label>
+
+        <input
           id="Previous Project"
-          label={this.props.updateprofileflag ? "" :"Previous Project"}
+          label="Previous Project"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="prevProject"
           variant="outlined"
-          defaultValue={this.props.updateprofileflag ? updateData.prevProject : this.state.prevProject}
+          defaultalue={this.props.updateprofileflag ? updateData.prevProject : this.state.prevProject}
         />
         </li>
         </ul>
         <br/>
         <ul className="nav">
           <li>
-        <TextField
+          <label> clientName: </label>
+
+        <input
           id="clientName"
-          label={this.props.updateprofileflag ? "" :"clientName"}
+          label="clientName"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="clientName"
           variant="outlined"
-          defaultValue={this.props.updateprofileflag ? updateData.clientName : this.state.clientName}
+          defaultalue={this.props.updateprofileflag ? updateData.clientName : this.state.clientName}
         />
           </li><br/><li>
-          <TextField
+          <label>Relocate: </label>
+
+          <input
           id="Relocate"
-          label={this.props.updateprofileflag ? "" :"Relocate"}
+          label="Relocate"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="relocate"
           variant="outlined"
-          defaultValue={this.props.updateprofileflag ? updateData.relocate : this.state.relocate}
+          defaultalue={this.props.updateprofileflag ? updateData.relocate : this.state.relocate}
         />
         </li><br/><li>
-        <TextField
+        <label> Experience: </label>
+
+        <input
           id="Experience"
-          label={this.props.updateprofileflag ? "" :"Experience"}
+          label="Experience"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="resourceExp"
@@ -338,18 +369,21 @@ render() {
         <br/>
         <ul className="nav">
           <li>
-        <TextField
+          <label> Skills: </label>
+
+        <input
           id="Skills"
-          label={this.props.updateprofileflag ? "" :"Skills"}
+          label="Skills"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="Skills"
           variant="outlined"
         />
           </li><br/><li>
-          <TextField
+            <label>Desired Position</label>
+          <input
           id="Desired Position"
-          label={this.props.updateprofileflag ? "" :"Desired Position"}
+          label="Desired Position"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="desiredPosition"
@@ -357,9 +391,11 @@ render() {
           defaultValue={this.props.updateprofileflag ? updateData.desiredPosition : this.state.desiredPosition}
         />
         </li><br/><li>
-        <TextField
+        <label> Notes: </label>
+
+        <input
           id="Notes"
-          label={this.props.updateprofileflag ? "" :"Notes"}
+          label="Notes"
           onChange={(e) => this.handleChange(e)}
           margin="normal"
           name="notes"

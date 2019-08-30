@@ -101,7 +101,7 @@ class Register extends Component {
     // const security_qus=document.getElementById("securityQuestion").value;
     // const username=document.getElementById("user_id").value;
     // const userpwd=document.getElementById("user_pwd").value;
-    fetch("http://172.16.75.112:8080/trp/register",{
+    fetch("http://172.16.75.112:8081/trp/register",{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
